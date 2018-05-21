@@ -14,6 +14,8 @@ connection.on("ReceiveMessage", (user, message) => {
     const encodedMsg = user + " says " + message;
     const li = document.createElement("li");
     li.textContent = encodedMsg;
+    const last = document.getElementById("lastMessage").innerText = li.innerText;
+
     document.getElementById("messagesList").appendChild(li);
 });
 
