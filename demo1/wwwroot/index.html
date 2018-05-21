@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
-    <body> 
-        <div id="app">
+<body> 
+    <div id="app">
         <form v-on:submit.prevent="addMessage">
             <input type="text" v-model="newMessage"/>
             <input id="sendButton" type="submit" value="Send" />
@@ -10,33 +10,34 @@
             <li v-for="message in messages">{{ message}}</li> 
         </ul>
     </div>
-        <script src="https://cdn.jsdelivr.net/npm/@aspnet/signalr@1.0.0-rc1-update1/dist/browser/signalr.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-        <script>
-            (async function() {
-                const connection = new signalR.HubConnectionBuilder()
-                    .withUrl("/app")
-                    .build();
 
-                const app = new Vue({
-                    el: "#app",
-                    data: {
-                        messages:[], 
-                        newMessage: null
-                    },
-                    methods: {
-                        async addMessage(){
-                            connection.invoke("Send", this.newMessage);
-                            this.newMessage = null;
-                        }
+    <script src="https://cdn.jsdelivr.net/npm/@aspnet/signalr@1.0.0-rc1-update1/dist/browser/signalr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        (async function() {
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl("/app")
+                .build();
+
+            const app = new Vue({
+                el: "#app",
+                data: {
+                    messages:[], 
+                    newMessage: null
+                },
+                methods: {
+                    async addMessage(){
+                        connection.invoke("Send", this.newMessage);
+                        this.newMessage = null;
                     }
-                })          
+                }
+            })          
 
-                connection.on("Recieve", message => {
-                    app.messages.push(message.data);
-                });
-                await connection.start();
-            })();
-        </script>
-    </body>
+            connection.on("Recieve", message => {
+                app.messages.push(message.data);
+            });
+            await connection.start();
+        })();
+    </script>
+</body>
 </html>

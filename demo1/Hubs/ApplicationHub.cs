@@ -12,7 +12,7 @@ namespace demo1
                   Data = message
               });
         }
-            class Messsage
+        class Messsage
         {
             public string Data  {get; set;}
         }
